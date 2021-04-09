@@ -1,13 +1,13 @@
+// biblioteca para criar servidor
 const express = require('express');
 const routes = express.Router();
 
-const basePath = __dirname + "/views";
 
-// request, response 
-routes.get('/', (request, response) => response.sendFile(basePath + "/index.html"))
-routes.get('/job', (request, response) => response.sendFile(basePath + "/job.html"))
-routes.get('/job/edit', (request, response) => response.sendFile(basePath + "/job-edit.html"))
-routes.get('/profile', (request, response) => response.sendFile(basePath + "/profile.html"))
+// req, res 
+routes.get('/', (req, res) => res.render("index"))
+routes.get('/job', (req, res) => res.render("job"))
+routes.get('/job/edit', (req, res) => res.render("job-edit"))
+routes.get('/profile', (req, res) => res.render("profile"))
 
 
 // export routes
