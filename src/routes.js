@@ -14,13 +14,25 @@ const profile = {
     "vacation-per-year": 4,
 }
 
+// controle de jobs - salvar jobs
+const jobs = [];
+
 // req, res 
 routes.get('/', (req, res) => res.render(views + "index"))
 routes.get('/job', (req, res) => res.render(views + "job"))
 
 // criar/salvar dados job  
 routes.post('/job', (req, res) => {
-    console.log(req.body)
+    // jogando os dados para o array jobs
+    const job = req.body;
+
+    // atribuindo uma nova data
+    job.createdAt = new Date.now();
+
+    jobs.push()
+
+    // assim que salvar os dados, redirecionar para home page
+    return res.redirect('/')
 })
 
 routes.get('/job/edit', (req, res) => res.render(views + "job-edit"))
