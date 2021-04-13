@@ -80,8 +80,8 @@
         <% jobs.forEach((job)=> { %>
 
           <!-- Colocando HTML do card entre o EJS. -->
-          <div class="card progress" data-id="1">
-            <div class="id column">1</div>
+          <div class="card progress" data-id="<%= job.id %> ">
+            <div class="id column"><%= job.id %> </div>
             <div class="name column">
               <!-- Imprimindo os dados do jobs com EJS. -->
               <%= jobs[0].name %>
