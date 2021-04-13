@@ -15,21 +15,44 @@ const profile = {
 }
 
 // controle de jobs - salvar jobs
-const jobs = [];
+const jobs = [
+    {
+        id: 1,
+        name: "Take Burguer Hamburgueria",
+        'daily-hours': 2,
+        'total-hours': 60,
+        createdAt: Date.now() 
+    },
+    {
+        id: 2,
+        name: "Caldinhos da Nanda",
+        'daily-hours': 5,
+        'total-hours': 37,
+        createdAt: Date.now() 
+    },
+];
 
 // req, res 
-routes.get('/', (req, res) => res.render(views + "index"))
+routes.get('/', (req, res) => res.render(views + "index", { jobs }))
 routes.get('/job', (req, res) => res.render(views + "job"))
 
 // criar/salvar dados job  
 routes.post('/job', (req, res) => {
-    // jogando os dados para o array jobs
-    const job = req.body;
-
     // atribuindo uma nova data (dias restantes)
-    job.createdAt = new Date.now();
+    // job.createdAt = new Date.now();
 
-    jobs.push()
+    // criando ID para os jobs. Conforme vai adicionando jobs, o Id vai mudando automáticamente conforme a posição no array.
+    const lastId = jobs[jobs.length - 1]?.id || 1;  
+
+    // jogando os dados para o array jobs
+    jobs.push({
+        id: lastId + 1, // => pega o ultimo id e soma +1 a ele.
+        name: req.body.name,
+        'daily-hours': req.body["daily-hours"],
+        'total-hours': req.body["total-hours"],
+        createdAt: Date.now() // => Atribuindo data de hoje.
+
+    })
 
     // assim que salvar os dados, redirecionar para home page
     return res.redirect('/')
