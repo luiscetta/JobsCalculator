@@ -26,7 +26,7 @@ routes.post('/job', (req, res) => {
     // jogando os dados para o array jobs
     const job = req.body;
 
-    // atribuindo uma nova data
+    // atribuindo uma nova data (dias restantes)
     job.createdAt = new Date.now();
 
     jobs.push()
