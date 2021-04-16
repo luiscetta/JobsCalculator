@@ -12,6 +12,7 @@ const profile = {
     "days-per-week": 5,
     "hours-per-day": 5,
     "vacation-per-year": 4,
+    "value-hour": 75
 }
 
 // controle de jobs - salvar jobs
@@ -32,24 +33,45 @@ const jobs = [
     },
 ];
 
+
+function remainingDays(job) {
+    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed() // => toFixed: se o numero for quebrado, ele deixa inteiro.
+
+    // Dia de criação do job
+    const createdDate = new Date(job.createdAt)
+
+    // Dia do vencimento do job
+    const dueDay = createdDate.getDate() + Number(remainingDays)
+
+    // Data futura do vencimento.
+    const dueDateInMs = createdDate.setDate(dueDay)
+
+    const timeDiffInMs = dueDateInMs - Date.now()
+
+    // Transformar milisegundos em dias
+    const dayInMs = 1000 * 60 * 60 * 24
+
+    // Diferença de dias (arredondando pra baixo)
+    const dayDiff = Math.floor(timeDiffInMs / dayInMs)
+
+    // restam x dias
+    return dayDiff
+}
+
 // req, res 
 routes.get('/', (req, res) => {
 
     // Ajustes no Jobs - Calculo de tempo restante
     const updatedJobs = jobs.map((job) => {
-        const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed() // => toFixed: se o numero for quebrado, ele deixa inteiro.
+       const remaining = remainingDays(job)
+       const status = remaining <= 0 ? 'done' : 'progress'
 
-        // Dia de criação do job
-        const createdDate = new Date(job.createdAt)
-
-        // Dia do vencimento do job
-        const dueDay = createdDate.getDate() + Number(remainingDays)
-
-        // Data exata do vencimento.
-        // const dueDate = createdDate.setDate
-
-
-        return job
+        return {
+            ...job,
+            remaining,
+            status,
+            budget: profile["value-hour"] + job["total-hours"]
+        }
 
     })
 
